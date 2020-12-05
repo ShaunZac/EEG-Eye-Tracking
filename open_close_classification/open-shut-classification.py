@@ -40,10 +40,10 @@ def classify(X: pd.DataFrame, y: pd.DataFrame) -> float:
     return model.score(X_test, y_test)
 
 
-def plot_bar(direct_score: float, feature_score: float):
-    x = [1, 2]
-    label = ["Without Feature Extraction", "With Feature Extraction"]
-    score = [direct_score*100, feature_score*100]
+def plot_bar(direct_score: float, feature_score: float, ica_score: float):
+    x = [1, 2, 3]
+    label = ["Without Feature \nExtraction", "With Feature \nExtraction", "With Feature \nExtraction ICA"]
+    score = [direct_score*100, feature_score*100, ica_score*100]
     plt.ylim(0, 100)
     plt.bar(x, score, width=0.5)
     plt.xticks(x, label)
@@ -73,4 +73,5 @@ open_shut_windowed = open_shut.rolling(WINDOW_SIZE).mean()[WINDOW_SIZE::WINDOW_S
 # Use an ML algorithm to predict
 score_direct = classify(eeg_input, open_shut)
 score_feature = classify(preprocessed_eeg, open_shut_windowed)
-plot_bar(score_direct, score_feature)
+score_ica = classify(ica_eeg, open_shut_windowed)
+plot_bar(score_direct, score_feature, score_ica)
